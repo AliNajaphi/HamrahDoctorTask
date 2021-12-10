@@ -45,7 +45,7 @@ public class _RelUpload_Item extends RelativeLayout {
 
     public void OnStart(UploadModel uploadModel,AdapterUpload adapterUpload,int position,FragMain fragMain)
     {
-        ((ImageView)findViewById(R.id.imgUpload_Item)).setImageBitmap(uploadModel.getBitmap());
+        ((ImageView)findViewById(R.id.imgUpload_Item)).setImageBitmap(GetCompressBitmap(uploadModel.getBitmap()));
         findViewById(R.id.RelUploadItem).getLayoutParams().height = GetHeight();
         uploadProgress = findViewById(R.id.uploadProgress);
         txtPercent = findViewById(R.id.txtPercent);
@@ -114,7 +114,14 @@ public class _RelUpload_Item extends RelativeLayout {
 
     }
 
-
+    private Bitmap GetCompressBitmap(Bitmap bitmap)
+    {
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        MainActivity.getGlobal().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        int width = displayMetrics.widthPixels/3;
+        int height = (width * bitmap.getHeight()) / bitmap.getWidth();
+        return Bitmap.createScaledBitmap(bitmap, width, height, false);
+    }
 
     private int GetHeight()
     {
