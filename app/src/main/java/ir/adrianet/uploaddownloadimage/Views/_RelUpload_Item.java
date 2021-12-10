@@ -64,7 +64,7 @@ public class _RelUpload_Item extends RelativeLayout {
         }
         else
         {
-
+            setOnClickListener(null);
             findViewById(R.id.imgFinishUpload).setVisibility(GONE);
             txtPercent.setVisibility(VISIBLE);
             uploadProgress.setVisibility(VISIBLE);
