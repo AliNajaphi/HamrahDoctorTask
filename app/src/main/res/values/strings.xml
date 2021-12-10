@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">UploadDownloadImage</string>
+    <string name="permission_denied">مجوز دسترسی داده نشده است</string>
+    <string name="pick_file_error">خطا در انتخاب فایل</string>
+    <string name="file_exist_server">تصویر تکراری است</string>
+    <string name="file_not_support">پسوند فایل پشتیبانی نمیشود</string>
+
+    <string name="chunk_exist_server">خطای ارسال تکراری قطعه</string>
+    <string name="file_not_exist">فایل موجود نیست</string>
+</resources>

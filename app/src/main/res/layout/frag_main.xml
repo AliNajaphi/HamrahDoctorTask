@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/RelFragMain"
+    android:background="@color/white"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/imgBackUpload"
+        android:src="@drawable/ic_back_upload"
+        android:layout_centerHorizontal="true"
+        android:layout_width="@dimen/_150sdp"
+        android:layout_marginBottom="@dimen/_100sdp"
+        android:layout_height="match_parent"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/RVUploadItem"
+        android:clipToPadding="false"
+        android:scrollbars="none"
+        android:layoutDirection="rtl"
+        app:reverseLayout="true"
+        android:layout_marginHorizontal="@dimen/_15sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentTop="true"
+        android:paddingBottom="@dimen/_25sdp"
+        android:layout_above="@id/btnUpload"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+
+
+    <RelativeLayout
+        android:id="@+id/btnUpload"
+        android:background="@drawable/back_btn_upload"
+        android:gravity="center_horizontal"
+        android:layout_alignParentBottom="true"
+        android:layout_marginHorizontal="@dimen/_15sdp"
+        android:layout_marginBottom="@dimen/_20sdp"
+        android:padding="@dimen/_10sdp"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_130sdp">
+
+        <com.wang.avi.AVLoadingIndicatorView
+            android:id="@+id/progressRegisterAV"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:indicatorColor="@color/colorPrimary"
+            android:layout_centerInParent="true"
+            app:indicatorName="BallPulseIndicator" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtUpload"
+            android:text="انتخاب تصویر"
+            android:textSize="@dimen/_18sdp"
+            android:layout_centerVertical="true"
+            android:textColor="@color/colorGray"
+            android:fontFamily="@font/yekan_bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imgUpload"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/txtUpload"
+            android:src="@drawable/ic_cam"
+            android:layout_marginHorizontal="@dimen/_5sdp"
+            android:layout_width="@dimen/_35sdp"
+            android:layout_height="@dimen/_35sdp"/>
+
+
+    </RelativeLayout>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txtErrorRegister"
+        android:visibility="gone"
+        android:text="* تصویر تکراری است"
+        android:textSize="@dimen/_12sdp"
+        android:layout_alignBottom="@id/btnUpload"
+        android:layout_marginBottom="@dimen/_10sdp"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/colorError"
+        android:fontFamily="@font/yekan_bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+</RelativeLayout>
