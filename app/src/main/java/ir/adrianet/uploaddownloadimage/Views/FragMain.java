@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -51,6 +52,9 @@ public class FragMain extends mFragment implements PickerImage {
 
     List<UploadModel> uploadModelList;
     AdapterUpload adapterUpload;
+    public AdapterUpload getAdapterUpload() {
+        return adapterUpload;
+    }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -171,7 +175,49 @@ public class FragMain extends mFragment implements PickerImage {
     private void AddToRecycler(UploadModel uploadModel)
     {
         uploadModelList.add(uploadModel);
+        uploadModel.setIdPosition(uploadModelList.size()-1);
         adapterUpload.notifyItemChanged(uploadModelList.size()-1);
+
+
+        UploadChunks(uploadModel);
+    }
+
+    public void UploadChunks(UploadModel uploadModel)
+    {
+        IService<ReqUpload,String> service = new IService<ReqUpload, String>() {
+            @Override
+            public void SendRequest(ReqUpload req) {
+                UploadDownloadService.UploadChunk(uploadModel.getSha256(),req,this);
+            }
+
+            @Override
+            public void OnSucceed(String result) {
+                if (uploadModel.getIndexNewUpload() < (uploadModel.getUploadList().size() -1)) {
+
+                    uploadModel.setIndexNewUpload(uploadModel.getIndexNewUpload() + 1);
+
+                    if (uploadModel.getState() == _RelUpload_Item.STATE_PROGRESS)
+                        SendRequest(uploadModel.getUploadList().get(uploadModel.getIndexNewUpload()));
+
+                }
+                else
+                    uploadModel.setState(_RelUpload_Item.STATE_FINISH);
+
+
+                adapterUpload.notifyItemChanged(uploadModel.getIdPosition());
+            }
+
+            @Override
+            public void OnError(String error, int statusCode) {
+                Toast.makeText(getContext(),error,Toast.LENGTH_LONG).show();
+
+                for (int i = (uploadModel.getIdPosition()+1);i < uploadModelList.size();i++)
+                    uploadModelList.get(i).setIdPosition(uploadModelList.get(i).getIdPosition()-1);
+                adapterUpload.getItems().remove(uploadModel.getIdPosition());
+                adapterUpload.notifyDataSetChanged();
+            }
+        };
+        service.SendRequest(uploadModel.getUploadList().get(uploadModel.getIndexNewUpload()));
     }
 
 

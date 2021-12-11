@@ -3,7 +3,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_margin="@dimen/_2sdp"
     android:id="@+id/RelUploadItem"
-    android:background="@drawable/back_gray3_smoth"
     android:layout_width="match_parent"
     android:layout_height="@dimen/_120sdp">
 
@@ -11,7 +10,7 @@
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/imgUpload_Item"
-        android:scaleType="centerInside"
+        android:scaleType="centerCrop"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
@@ -44,11 +43,11 @@
 
 
     <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/imgFinishUpload"
+        android:id="@+id/imgStateUpload"
         android:scaleType="centerInside"
         android:src="@drawable/ic_complete"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
+        android:layout_centerHorizontal="true"
         android:layout_margin="@dimen/_5sdp"
         android:layout_width="@dimen/_20sdp"
         android:layout_height="@dimen/_20sdp"/>

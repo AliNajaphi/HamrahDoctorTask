@@ -33,6 +33,11 @@ import ir.adrianet.uploaddownloadimage.Views.Model.UploadModel;
 
 public class _RelUpload_Item extends RelativeLayout {
 
+
+    public final static int STATE_PROGRESS = 0;
+    public final static int STATE_PAUSE = 1;
+    public final static int STATE_FINISH = 2;
+
     public _RelUpload_Item(Context context) {
         super(context);
 
@@ -50,11 +55,11 @@ public class _RelUpload_Item extends RelativeLayout {
         uploadProgress = findViewById(R.id.uploadProgress);
         txtPercent = findViewById(R.id.txtPercent);
 
-        if (uploadModel.isFinish())
+        if (uploadModel.getState() == STATE_FINISH)
         {
             uploadProgress.setVisibility(GONE);
             txtPercent.setVisibility(GONE);
-            findViewById(R.id.imgFinishUpload).setVisibility(VISIBLE);
+            ((ImageView)findViewById(R.id.imgStateUpload)).setImageResource(R.drawable.ic_complete);
             setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -64,8 +69,6 @@ public class _RelUpload_Item extends RelativeLayout {
         }
         else
         {
-            setOnClickListener(null);
-            findViewById(R.id.imgFinishUpload).setVisibility(GONE);
             txtPercent.setVisibility(VISIBLE);
             uploadProgress.setVisibility(VISIBLE);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
@@ -79,40 +82,34 @@ public class _RelUpload_Item extends RelativeLayout {
                 int percent = (uploadModel.getIndexNewUpload() * 100) / uploadProgress.getMax();
                 txtPercent.setText(percent + "%");
             }
-            UploadChunks(uploadModel,adapterUpload,position);
+
+            if (uploadModel.getState() == STATE_PROGRESS)
+            {
+                ((ImageView)findViewById(R.id.imgStateUpload)).setImageResource(R.drawable.ic_pause);
+                setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        uploadModel.setState(STATE_PAUSE);
+                    }
+                });
+            }
+            else {
+                ((ImageView) findViewById(R.id.imgStateUpload)).setImageResource(R.drawable.ic_play);
+                setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        uploadModel.setState(STATE_PROGRESS);
+                        fragMain.UploadChunks(uploadModel);
+                    }
+                });
+
+            }
+
+
         }
     }
 
-    private void UploadChunks(UploadModel uploadModel,AdapterUpload adapterUpload,int position)
-    {
-        IService<ReqUpload,String> service = new IService<ReqUpload, String>() {
-            @Override
-            public void SendRequest(ReqUpload req) {
-                UploadDownloadService.UploadChunk(uploadModel.getSha256(),req,this);
-            }
 
-            @Override
-            public void OnSucceed(String result) {
-                if (uploadModel.getIndexNewUpload() < (uploadModel.getUploadList().size() -1))
-                    uploadModel.setIndexNewUpload(uploadModel.getIndexNewUpload() + 1);
-                else
-                    uploadModel.setFinish(true);
-
-
-                adapterUpload.notifyItemChanged(position);
-            }
-
-            @Override
-            public void OnError(String error, int statusCode) {
-                Toast.makeText(getContext(),error,Toast.LENGTH_LONG).show();
-                adapterUpload.getItems().remove(position);
-                adapterUpload.notifyDataSetChanged();
-            }
-        };
-        service.SendRequest(uploadModel.getUploadList().get(uploadModel.getIndexNewUpload()));
-
-
-    }
 
     private Bitmap GetCompressBitmap(Bitmap bitmap)
     {

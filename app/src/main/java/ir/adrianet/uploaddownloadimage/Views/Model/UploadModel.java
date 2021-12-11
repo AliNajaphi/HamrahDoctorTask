@@ -8,11 +8,12 @@ import ir.adrianet.uploaddownloadimage.Core.Request.ReqUpload;
 
 public class UploadModel {
 
+    private int idPosition;
     private List<ReqUpload> uploadList;
     private String sha256;
     private int indexNewUpload;
     private Bitmap bitmap;
-    private boolean isFinish = false;
+    private int state = 0;//0=progress , 1=pause , 2=finish
 
     public UploadModel(List<ReqUpload> uploadList, String sha256, int indexNewUpload, Bitmap bitmap) {
         this.uploadList = uploadList;
@@ -53,11 +54,19 @@ public class UploadModel {
         this.uploadList = uploadList;
     }
 
-    public boolean isFinish() {
-        return isFinish;
+    public int getIdPosition() {
+        return idPosition;
     }
 
-    public void setFinish(boolean finish) {
-        isFinish = finish;
+    public void setIdPosition(int idPosition) {
+        this.idPosition = idPosition;
+    }
+
+    public int getState() {
+        return state;
+    }
+
+    public void setState(int state) {
+        this.state = state;
     }
 }
