@@ -48,7 +48,7 @@ public class _RelUpload_Item extends RelativeLayout {
     ProgressBar uploadProgress;
     TextView txtPercent;
 
-    public void OnStart(UploadModel uploadModel,AdapterUpload adapterUpload,int position,FragMain fragMain)
+    public void OnStart(UploadModel uploadModel,FragMain fragMain)
     {
         ((ImageView)findViewById(R.id.imgUpload_Item)).setImageBitmap(GetCompressBitmap(uploadModel.getBitmap()));
         findViewById(R.id.RelUploadItem).getLayoutParams().height = GetHeight();

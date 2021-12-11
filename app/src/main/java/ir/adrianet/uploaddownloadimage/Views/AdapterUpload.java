@@ -10,9 +10,7 @@ import ir.adrianet.uploaddownloadimage.Views.Model.UploadModel;
 
 public class AdapterUpload extends RecyclerView.Adapter<AdapterUpload.MyViewHolder> {
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
-
-
+    public static class MyViewHolder extends RecyclerView.ViewHolder {
         _RelUpload_Item VIEW;
 
         public MyViewHolder(_RelUpload_Item view) {
@@ -31,12 +29,12 @@ public class AdapterUpload extends RecyclerView.Adapter<AdapterUpload.MyViewHold
 
     @Override
     public AdapterUpload.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new AdapterUpload.MyViewHolder(new _RelUpload_Item(parent.getContext()));
+        return new MyViewHolder(new _RelUpload_Item(parent.getContext()));
     }
 
     @Override
     public void onBindViewHolder(AdapterUpload.MyViewHolder holder, int position) {
-        holder.VIEW.OnStart(Items.get(position),this,position,fragMain);
+        holder.VIEW.OnStart(Items.get(position),fragMain);
     }
 
     public List<UploadModel> getItems() {
